@@ -1,23 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>我的充值站</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>官方充值中心</title>
+
+<style>
+
+body{
+margin:0;
+background:#f5f7fa;
+font-family:Arial;
+}
+
+.header{
+background:#1677ff;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+.card{
+background:white;
+max-width:600px;
+margin:20px auto;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin-top:8px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+.btn{
+display:block;
+background:#1677ff;
+color:white;
+padding:15px;
+text-align:center;
+border-radius:8px;
+text-decoration:none;
+}
+
+.price{
+color:red;
+font-size:26px;
+font-weight:bold;
+text-align:center;
+}
+
+</style>
 </head>
 
 <body>
 
+<div class="header">
 <h1>官方充值中心</h1>
-
 <p>安全稳定 · 快速到账</p>
+</div>
 
-<h2>联系客服</h2>
+<div class="card">
 
-<p>微信：xiaji009</p>
+<h3>填写充值信息</h3>
 
-<h2>充值说明</h2>
+<input type="text" placeholder="请输入UID">
 
-<p>填写UID联系客服即可充值</p>
+<select id="price" onchange="showPrice()">
+<option value="10">100钻石</option>
+<option value="50">500钻石</option>
+<option value="100">1000钻石</option>
+<option value="200">2000钻石</option>
+</select>
+
+<div class="price">
+¥ <span id="money">10</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>联系客服</h3>
+
+<p>微信：xiajj009</p>
+
+<a class="btn">
+联系微信客服
+</a>
+
+</div>
+
+<div class="card">
+
+<h3>充值流程</h3>
+
+<p>
+① 填写UID<br>
+② 联系客服<br>
+③ 完成付款<br>
+④ 官方充值<br>
+⑤ 到账确认
+</p>
+
+</div>
+
+<script>
+
+function showPrice(){
+document.getElementById("money").innerHTML =
+document.getElementById("price").value;
+}
+
+</script>
 
 </body>
 </html>
