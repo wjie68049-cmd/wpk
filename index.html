@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>充值中心</title>
+<title>WPK钻石充值中心</title>
 <style>
 *{
     margin: 0;
@@ -49,13 +49,17 @@ input, select{
 }
 .btn{
     display:block;
+    width:100%;
     background:#1677ff;
     color:white;
     padding:15px;
     text-align:center;
     border-radius:8px;
+    border: none;
     text-decoration:none;
     font-weight:bold;
+    font-size:16px;
+    cursor: pointer;
 }
 .price{
     color:red;
@@ -90,13 +94,12 @@ img{
 </head>
 <body>
 <div class="header">
-    <h1>官方充值中心</h1>
-    <p>安全稳定 · 快速到账</p>
+    <h1>WPK钻石充值中心</h1>
+    <p>官方渠道 · 秒到账 · 售后支持</p>
 </div>
-
 <div class="card">
     <h3>填写充值信息</h3>
-    <input type="text" placeholder="请输入UID">
+    <input type="text" id="uidInput" placeholder="请输入UID">
     <select id="price" onchange="showPrice()">
         <option value="10">100钻石</option>
         <option value="50">500钻石</option>
@@ -107,15 +110,13 @@ img{
         ¥ <span id="money">10</span>
     </div>
 </div>
-
 <div class="card">
     <h3>联系客服</h3>
     <p class="tip-text">微信：xiajj009</p>
-    <a class="btn" href="weixin://">联系客服</a>
-    <img src="b89333a10cfc76405ecc829b32d5bd5b.jpg" ="微信二维码">
+    <button class="btn" onclick="copyWechat()">复制微信号联系客服</button>
+    <img src="b89333a10cfc76405ecc829b32d5bd5b.jpg" alt="微信二维码">
     <p style="text-align:center;color:#666;">微信扫码联系</p>
 </div>
-
 <div class="card">
     <h3>充值流程</h3>
     <p class="tip-text">
@@ -126,7 +127,6 @@ img{
         ⑤ 到账确认
     </p>
 </div>
-
 <div class="card">
     <h3>服务条款 & 退款说明</h3>
     <p class="rule">
@@ -136,13 +136,14 @@ img{
         4. 禁止使用非法资金充值，一经发现将停止服务。
     </p>
 </div>
-
 <script>
 function showPrice(){
     document.getElementById("money").innerHTML = document.getElementById("price").value;
 }
+function copyWechat() {
+    navigator.clipboard.writeText("xiajj009");
+    alert("微信号已复制：xiajj009");
+}
 </script>
 </body>
 </html>
-
-
