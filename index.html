@@ -67,6 +67,17 @@ input{
     text-align:center;
     margin:10px 0 16px;
 }
+.rate-tip{
+    text-align:center;
+    color:#666;
+    margin-bottom:8px;
+}
+.warn-tip{
+    text-align:center;
+    color:#f56c6c;
+    font-size:14px;
+    margin-bottom:12px;
+}
 img{
     display:block;
     margin:20px auto;
@@ -97,9 +108,11 @@ img{
 </div>
 <div class="card">
     <h3>填写充值信息</h3>
+    <div class="rate-tip">计价规则：100元以下 1:7，≥100元 1:7.2</div>
+    <div class="warn-tip">⚠️ 优先填写付款金额，计算更稳定</div>
     <input type="text" id="uidInput" placeholder="请输入UID">
-    <input type="number" id="diamondInput" placeholder="输入钻石数量" oninput="calcByDiamond()">
     <input type="number" id="moneyInput" placeholder="输入付款金额(元)" oninput="calcByMoney()">
+    <input type="number" id="diamondInput" placeholder="输入钻石数量" oninput="calcByDiamond()">
     <div class="price-show">应付：¥<span id="moneyView">0.00</span></div>
     <button class="btn" onclick="copyOrder()">复制订单信息</button>
 </div>
@@ -132,22 +145,42 @@ img{
     </p>
 </div>
 <script>
-// 比例：1元 = 7.2钻石
-const rate = 7.2;
-// 最低充值金额(元)
+// 阶梯比例：<100元 = 7；>=100元 =7.2，最低10元
 const minMoney = 10;
+
+// 根据金额获取当前倍率
+function getRate(money){
+    if(money >= 100){
+        return 7.2;
+    }else{
+        return 7;
+    }
+}
 
 // 输入钻石，自动算金额
 function calcByDiamond(){
     let dia = document.getElementById("diamondInput").value;
+    if(!dia){
+        document.getElementById("moneyInput").value = "";
+        document.getElementById("moneyView").innerText = "0.00";
+        return;
+    }
+    let tempMoney1 = dia / 7;
+    let rate = getRate(tempMoney1);
     let money = dia / rate;
     document.getElementById("moneyInput").value = money.toFixed(2);
     document.getElementById("moneyView").innerText = money.toFixed(2);
 }
 
-// 输入金额，自动算钻石
+// 输入金额，自动算钻石（推荐，逻辑稳定）
 function calcByMoney(){
     let money = document.getElementById("moneyInput").value;
+    if(!money){
+        document.getElementById("diamondInput").value = "";
+        document.getElementById("moneyView").innerText = "0.00";
+        return;
+    }
+    let rate = getRate(parseFloat(money));
     let dia = money * rate;
     document.getElementById("diamondInput").value = dia.toFixed(1);
     document.getElementById("moneyView").innerText = money;
@@ -167,7 +200,7 @@ function copyOrder(){
         alert("请先填写UID！");
         return;
     }
-    if(!diamond || !money){
+    if(!diamond || isNaN(money)){
         alert("请输入钻石或金额！");
         return;
     }
