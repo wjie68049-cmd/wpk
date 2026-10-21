@@ -100,7 +100,7 @@ img{
     <input type="text" id="uidInput" placeholder="请输入UID">
     <input type="number" id="diamondInput" placeholder="输入钻石数量" oninput="calcByDiamond()">
     <input type="number" id="moneyInput" placeholder="输入付款金额(元)" oninput="calcByMoney()">
-    <div class="price-show">应付：¥<span id="moneyView">0</span></div>
+    <div class="price-show">应付：¥<span id="moneyView">0.00</span></div>
     <button class="btn" onclick="copyOrder()">复制订单信息</button>
 </div>
 <div class="card">
@@ -132,8 +132,8 @@ img{
     </p>
 </div>
 <script>
-// 比例：1元 = 72钻石
-const rate = 72;
+// 比例：1元 = 7.2钻石
+const rate = 7.2;
 // 最低充值金额(元)
 const minMoney = 10;
 
@@ -149,7 +149,7 @@ function calcByDiamond(){
 function calcByMoney(){
     let money = document.getElementById("moneyInput").value;
     let dia = money * rate;
-    document.getElementById("diamondInput").value = dia.toFixed(0);
+    document.getElementById("diamondInput").value = dia.toFixed(1);
     document.getElementById("moneyView").innerText = money;
 }
 
@@ -183,4 +183,3 @@ function copyOrder(){
 </script>
 </body>
 </html>
-
