@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WPK钻石充值中心</title>
+<title>WPK钻石充值&回收</title>
 <style>
 *{
     margin: 0;
@@ -78,6 +78,11 @@ input{
     font-size:14px;
     margin-bottom:12px;
 }
+.recycle{
+    border-top: 1px dashed #ccc;
+    margin-top:16px;
+    padding-top:16px;
+}
 img{
     display:block;
     margin:20px auto;
@@ -103,19 +108,28 @@ img{
 </head>
 <body>
 <div class="header">
-    <h1>WPK钻石充值中心</h1>
+    <h1>WPK钻石充值&回收</h1>
     <p>官方渠道 · 秒到账 · 售后支持</p>
 </div>
 <div class="card">
-    <h3>填写充值信息</h3>
+    <h3>💎 充值计算器</h3>
     <div class="rate-tip">计价规则：100元以下 1:7，≥100元 1:7.2</div>
     <div class="warn-tip">⚠️ 优先填写付款金额，计算更稳定</div>
     <input type="text" id="uidInput" placeholder="请输入UID">
     <input type="number" id="moneyInput" placeholder="输入付款金额(元)" oninput="calcByMoney()">
     <input type="number" id="diamondInput" placeholder="输入钻石数量" oninput="calcByDiamond()">
     <div class="price-show">应付：¥<span id="moneyView">0.00</span></div>
-    <button class="btn" onclick="copyOrder()">复制订单信息</button>
+    <button class="btn" onclick="copyOrder()">复制充值订单</button>
+
+    <div class="recycle">
+        <h3>♻️ 钻石回收计算器（收货价 1:8）</h3>
+        <div class="rate-tip">回收规则：8钻石 = 1元</div>
+        <input type="number" id="recycleDiaInput" placeholder="输入要回收的钻石数量" oninput="calcRecycle()">
+        <div class="price-show">回款：¥<span id="recycleMoneyView">0.00</span></div>
+        <button class="btn" onclick="copyRecycle()">复制回收订单</button>
+    </div>
 </div>
+
 <div class="card">
     <h3>联系客服</h3>
     <p class="tip-text">微信：xiajj009</p>
@@ -126,29 +140,27 @@ img{
     <p style="text-align:center;color:#666;">微信扫码联系</p>
 </div>
 <div class="card">
-    <h3>充值流程</h3>
+    <h3>充值&回收流程</h3>
     <p class="tip-text">
         ① 填写UID<br>
-        ② 联系客服<br>
-        ③ 完成付款<br>
-        ④ 官方充值<br>
-        ⑤ 到账确认
+        ② 联系客服确认<br>
+        ③ 充值付款 / 钻石发货<br>
+        ④ 核验后到账<br>
+        ⑤ 完成交易
     </p>
 </div>
 <div class="card">
     <h3>服务条款 & 退款说明</h3>
     <p class="rule">
-        1. 充值前请确认UID填写正确，充值成功后无法修改；<br>
-        2. 充值为虚拟商品，到账后非系统故障不支持无理由退款；<br>
-        3. 如长时间未到账，请直接联系客服核对订单；<br>
-        4. 禁止使用非法资金充值，一经发现将停止服务。
+        1. 交易前请确认UID无误，确认后不可撤销；<br>
+        2. 钻石为虚拟道具，按页面公示比例结算；<br>
+        3. 请先联系客服核验，再进行交易；<br>
+        4. 禁止非法交易，一经发现停止服务。
     </p>
 </div>
 <script>
-// 阶梯比例：<100元 = 7；>=100元 =7.2，最低10元
+// 充值配置
 const minMoney = 10;
-
-// 根据金额获取当前倍率
 function getRate(money){
     if(money >= 100){
         return 7.2;
@@ -156,8 +168,10 @@ function getRate(money){
         return 7;
     }
 }
+// 回收：8钻石=1元，回收倍率 1/8
+const recycleRate = 8;
 
-// 输入钻石，自动算金额
+// 充值：输入钻石，自动算金额
 function calcByDiamond(){
     let dia = document.getElementById("diamondInput").value;
     if(!dia){
@@ -171,8 +185,7 @@ function calcByDiamond(){
     document.getElementById("moneyInput").value = money.toFixed(2);
     document.getElementById("moneyView").innerText = money.toFixed(2);
 }
-
-// 输入金额，自动算钻石（推荐，逻辑稳定）
+// 充值：输入金额，自动算钻石
 function calcByMoney(){
     let money = document.getElementById("moneyInput").value;
     if(!money){
@@ -185,33 +198,58 @@ function calcByMoney(){
     document.getElementById("diamondInput").value = dia.toFixed(1);
     document.getElementById("moneyView").innerText = money;
 }
+// 回收计算
+function calcRecycle(){
+    let dia = document.getElementById("recycleDiaInput").value;
+    if(!dia){
+        document.getElementById("recycleMoneyView").innerText = "0.00";
+        return;
+    }
+    let money = dia / recycleRate;
+    document.getElementById("recycleMoneyView").innerText = money.toFixed(2);
+}
 
 function copyWechat() {
     navigator.clipboard.writeText("xiajj009");
     alert("微信号已复制：xiajj009");
 }
-
+// 复制充值订单
 function copyOrder(){
     const uid = document.getElementById("uidInput").value.trim();
     const diamond = document.getElementById("diamondInput").value;
     const money = parseFloat(document.getElementById("moneyInput").value);
-
     if(!uid){
         alert("请先填写UID！");
         return;
     }
     if(!diamond || isNaN(money)){
-        alert("请输入钻石或金额！");
+        alert("请输入金额或钻石！");
         return;
     }
     if(money < minMoney){
         alert(`最低充值${minMoney}元！`);
         return;
     }
-
-    const msg = `UID：${uid}，钻石：${diamond}，金额：¥${money.toFixed(2)}`;
+    const msg = `【充值】UID：${uid}，钻石：${diamond}，金额：¥${money.toFixed(2)}`;
     navigator.clipboard.writeText(msg);
-    alert("订单信息已复制：\n"+msg);
+    alert("充值订单已复制：\n"+msg);
+}
+// 复制回收订单
+function copyRecycle(){
+    const uid = document.getElementById("uidInput").value.trim();
+    const dia = document.getElementById("recycleDiaInput").value;
+    const money = dia / recycleRate;
+    if(!uid){
+        alert("请先填写UID！");
+        return;
+    }
+    if(!dia || dia <=0){
+        alert("请输入回收钻石数量！");
+        return;
+    }
+    const msg = `【回收】UID：${uid}，回收钻石：${dia}，回款：¥${money.toFixed(2)}`;
+    navigator.clipboard.writeText(msg);
+    alert("回收订单已复制：\n"+msg);
 }
 </script>
 </body>
