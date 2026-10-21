@@ -2,131 +2,147 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>官方充值中心</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>充值中心</title>
 <style>
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
 body{
-margin:0;
-background:#f5f7fa;
-font-family:Arial;
+    background-color: #f4f5f7;
+    padding: 20px 16px;
+    /* 消除body自带底部留白 */
+    margin-bottom:0;
 }
-
 .header{
-background:#1677ff;
-color:white;
-text-align:center;
-padding:40px;
+    text-align: center;
+    margin-bottom:24px;
 }
-
+.header h1{
+    font-size:24px;
+    color:#222;
+}
+.header p{
+    color:#666;
+    margin-top:6px;
+}
 .card{
-background:white;
-max-width:600px;
-margin:20px auto;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:16px;
 }
-
-input,select{
-width:100%;
-padding:12px;
-margin-top:8px;
-margin-bottom:15px;
-border:1px solid #ddd;
-border-radius:8px;
+.card h3{
+    margin-bottom:16px;
+    color:#333;
 }
-
+input, select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:14px;
+    font-size:16px;
+}
 .btn{
-display:block;
-background:#1677ff;
-color:white;
-padding:15px;
-text-align:center;
-border-radius:8px;
-text-decoration:none;
+    display:block;
+    background:#1677ff;
+    color:white;
+    padding:15px;
+    text-align:center;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
 }
-
 .price{
-color:red;
-font-size:26px;
-font-weight:bold;
-text-align:center;
+    color:red;
+    font-size:26px;
+    font-weight:bold;
+    text-align:center;
+    margin:10px 0;
 }
-
+img{
+    display:block;
+    margin:20px auto;
+    border-radius:10px;
+    width:220px;
+}
+.tip-text{
+    color:#555;
+    line-height:1.7;
+    font-size:14px;
+}
+.rule{
+    margin-top:10px;
+    font-size:13px;
+    color:#777;
+    border-top:1px solid #eee;
+    padding-top:12px;
+}
+/* 重点：最后一个卡片取消底部外边距，消除页面末尾空白 */
+.card:last-child{
+    margin-bottom:0;
+}
 </style>
 </head>
-
 <body>
-
 <div class="header">
-<h1>官方充值中心</h1>
-<p>安全稳定 · 快速到账</p>
+    <h1>官方充值中心</h1>
+    <p>安全稳定 · 快速到账</p>
 </div>
 
 <div class="card">
-
-<h3>填写充值信息</h3>
-
-<input type="text" placeholder="请输入UID">
-
-<select id="price" onchange="showPrice()">
-<option value="10">100钻石</option>
-<option value="50">500钻石</option>
-<option value="100">1000钻石</option>
-<option value="200">2000钻石</option>
-</select>
-
-<div class="price">
-¥ <span id="money">10</span>
-</div>
-
+    <h3>填写充值信息</h3>
+    <input type="text" placeholder="请输入UID">
+    <select id="price" onchange="showPrice()">
+        <option value="10">100钻石</option>
+        <option value="50">500钻石</option>
+        <option value="100">1000钻石</option>
+        <option value="200">2000钻石</option>
+    </select>
+    <div class="price">
+        ¥ <span id="money">10</span>
+    </div>
 </div>
 
 <div class="card">
-
-<h3>联系客服</h3>
-
-<p>微信：xiajj009</p>
-
-<a class="btn">
-<h3>联系客服</h3>
-
-<p>微信：xiajj009</p>
-
-<img src="b89333a10cfc76405ecc829b32d5bd5b.jpg"
-width="220"
-style="display:block;margin:20px auto;border-radius:10px;">
-
-<p style="text-align:center;">
-微信扫码联系
-</p>
-
+    <h3>联系客服</h3>
+    <p class="tip-text">微信：xiajj009</p>
+    <a class="btn" href="weixin://">联系客服</a>
+    <img src="wechat.jpg" alt="微信二维码">
+    <p style="text-align:center;color:#666;">微信扫码联系</p>
 </div>
 
 <div class="card">
+    <h3>充值流程</h3>
+    <p class="tip-text">
+        ① 填写UID<br>
+        ② 联系客服<br>
+        ③ 完成付款<br>
+        ④ 官方充值<br>
+        ⑤ 到账确认
+    </p>
+</div>
 
-<h3>充值流程</h3>
-
-<p>
-① 填写UID<br>
-② 联系客服<br>
-③ 完成付款<br>
-④ 官方充值<br>
-⑤ 到账确认
-</p>
-
+<div class="card">
+    <h3>服务条款 & 退款说明</h3>
+    <p class="rule">
+        1. 充值前请确认UID填写正确，充值成功后无法修改；<br>
+        2. 充值为虚拟商品，到账后非系统故障不支持无理由退款；<br>
+        3. 如长时间未到账，请直接联系客服核对订单；<br>
+        4. 禁止使用非法资金充值，一经发现将停止服务。
+    </p>
 </div>
 
 <script>
-
 function showPrice(){
-document.getElementById("money").innerHTML =
-document.getElementById("price").value;
+    document.getElementById("money").innerHTML = document.getElementById("price").value;
 }
-
 </script>
-
 </body>
 </html>
+
+
