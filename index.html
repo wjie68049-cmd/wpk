@@ -38,7 +38,7 @@ body{
     margin-bottom:16px;
     color:#333;
 }
-input, select{
+input{
     width:100%;
     padding:12px;
     border:1px solid #ddd;
@@ -58,13 +58,14 @@ input, select{
     font-weight:bold;
     font-size:16px;
     cursor: pointer;
+    margin-bottom:12px;
 }
-.price{
+.price-show{
     color:red;
     font-size:26px;
     font-weight:bold;
     text-align:center;
-    margin:10px 0;
+    margin:10px 0 16px;
 }
 img{
     display:block;
@@ -97,20 +98,17 @@ img{
 <div class="card">
     <h3>填写充值信息</h3>
     <input type="text" id="uidInput" placeholder="请输入UID">
-    <select id="price" onchange="showPrice()">
-        <option value="10">100钻石</option>
-        <option value="50">500钻石</option>
-        <option value="100">1000钻石</option>
-        <option value="200">2000钻石</option>
-    </select>
-    <div class="price">
-        ¥ <span id="money">10</span>
-    </div>
+    <input type="number" id="diamondInput" placeholder="输入钻石数量" oninput="calcByDiamond()">
+    <input type="number" id="moneyInput" placeholder="输入付款金额(元)" oninput="calcByMoney()">
+    <div class="price-show">应付：¥<span id="moneyView">0</span></div>
+    <button class="btn" onclick="copyOrder()">复制订单信息</button>
 </div>
 <div class="card">
     <h3>联系客服</h3>
     <p class="tip-text">微信：xiajj009</p>
     <button class="btn" onclick="copyWechat()">复制微信号联系客服</button>
+    <!-- 拿到企微客服链接后填到href=""里面 -->
+    <a class="btn" href="" target="_blank">免加好友直接联系客服</a>
     <img src="b89333a10cfc76405ecc829b32d5bd5b.jpg" alt="微信二维码">
     <p style="text-align:center;color:#666;">微信扫码联系</p>
 </div>
@@ -134,13 +132,55 @@ img{
     </p>
 </div>
 <script>
-function showPrice(){
-    document.getElementById("money").innerHTML = document.getElementById("price").value;
+// 比例：1元 = 72钻石
+const rate = 72;
+// 最低充值金额(元)
+const minMoney = 10;
+
+// 输入钻石，自动算金额
+function calcByDiamond(){
+    let dia = document.getElementById("diamondInput").value;
+    let money = dia / rate;
+    document.getElementById("moneyInput").value = money.toFixed(2);
+    document.getElementById("moneyView").innerText = money.toFixed(2);
 }
+
+// 输入金额，自动算钻石
+function calcByMoney(){
+    let money = document.getElementById("moneyInput").value;
+    let dia = money * rate;
+    document.getElementById("diamondInput").value = dia.toFixed(0);
+    document.getElementById("moneyView").innerText = money;
+}
+
 function copyWechat() {
     navigator.clipboard.writeText("xiajj009");
     alert("微信号已复制：xiajj009");
 }
+
+function copyOrder(){
+    const uid = document.getElementById("uidInput").value.trim();
+    const diamond = document.getElementById("diamondInput").value;
+    const money = parseFloat(document.getElementById("moneyInput").value);
+
+    if(!uid){
+        alert("请先填写UID！");
+        return;
+    }
+    if(!diamond || !money){
+        alert("请输入钻石或金额！");
+        return;
+    }
+    if(money < minMoney){
+        alert(`最低充值${minMoney}元！`);
+        return;
+    }
+
+    const msg = `UID：${uid}，钻石：${diamond}，金额：¥${money.toFixed(2)}`;
+    navigator.clipboard.writeText(msg);
+    alert("订单信息已复制：\n"+msg);
+}
 </script>
 </body>
 </html>
+
